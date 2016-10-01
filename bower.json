@@ -1,6 +1,9 @@
 {
   "name": "simple-autosize-iframe",
   "description": "Auto resizing iframe component",
+  "authors": [
+    "Gregory Klein (https://www.gregoryklein.io)"
+  ],
   "main": "simple-autosize-iframe.html",
   "dependencies": {
     "polymer": "Polymer/polymer#^1.4.0"
@@ -10,5 +13,9 @@
     "iron-demo-helpers": "PolymerElements/iron-demo-helpers#^1.0.0",
     "web-component-tester": "^4.0.0",
     "webcomponentsjs": "webcomponents/webcomponentsjs#^0.7.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Greg-Klein/simple-autosize-iframe.git"
   }
 }

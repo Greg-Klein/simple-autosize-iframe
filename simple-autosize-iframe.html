@@ -39,6 +39,10 @@ Auto resizing iframe component
         this._watch(el);
       },
 
+      detached: function() {
+        window.clearInterval(this.interv);
+      },
+
       _setHeight: function(el) {
         var element = Polymer.dom(this.root).querySelector('iframe');
         element.style.height = 0;
