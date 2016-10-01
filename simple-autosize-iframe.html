@@ -1,0 +1,54 @@
+<link rel="import" href="../polymer/polymer.html">
+
+<!--
+`simple-autosize-iframe`
+Auto resizing iframe component
+
+@demo demo/index.html
+@author Gregory Klein
+-->
+
+<dom-module id="simple-autosize-iframe">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+    <iframe src$="[[src]]" frameborder$="[[frameborder]]" width="100%" scrolling="no" on-load="_resize"></iframe>
+  </template>
+
+  <script>
+
+    Polymer({
+
+      is: 'simple-autosize-iframe',
+
+      properties: {
+        src: {type: String, value: ''},
+        frameborder : {type: String, value: "0"}
+      },
+
+      ready: function() {
+        window.addEventListener('resize', this._resize.bind(this));
+      },
+
+      _resize: function() {
+        var el = Polymer.dom(this.root).querySelector('iframe'),
+            that = this;
+        this._setHeight(el);
+        var interv = window.setInterval(function() {
+            that._setHeight(el);
+        }, 500);
+        window.setTimeout(function() {
+            window.clearInterval(interv);
+        }, 4000);
+      },
+
+      _setHeight: function(element) {
+        element.style.height = (element.contentWindow.document.body) ? element.contentWindow.document.body.scrollHeight + 'px' : 0;
+      }
+
+    });
+  </script>
+</dom-module>
