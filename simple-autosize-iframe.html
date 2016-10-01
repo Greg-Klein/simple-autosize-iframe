@@ -51,7 +51,7 @@ Auto resizing iframe component
 
       _watch: function(element) {
         var that = this;
-        var interv = window.setInterval(function() {
+        this.interv = window.setInterval(function() {
             var h = (element.contentWindow.document.body) ? element.contentWindow.document.body.scrollHeight : 0;
             if(that._height != h) {
                 that._height = h;
