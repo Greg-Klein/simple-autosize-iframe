@@ -15,7 +15,7 @@ Auto resizing iframe component
         display: block;
       }
     </style>
-    <iframe src$="[[src]]" frameborder$="[[frameborder]]" width="100%" scrolling="no" on-load="_resize"></iframe>
+    <iframe src$="[[src]]" frameborder$="[[frameborder]]" width="100%" scrolling="no"></iframe>
   </template>
 
   <script>
@@ -25,28 +25,35 @@ Auto resizing iframe component
       is: 'simple-autosize-iframe',
 
       properties: {
-        src: {type: String, value: ''},
-        frameborder : {type: String, value: "0"}
+        src: {type: String, value: '', observer: '_setHeight', reflectToAttribute: true},
+        frameborder : {type: String, value: "0", reflectToAttribute: true},
+        _height: {type: Number, value:'0'}
       },
 
-      ready: function() {
-        window.addEventListener('resize', this._resize.bind(this));
-      },
-
-      _resize: function() {
+      attached: function() {
         var el = Polymer.dom(this.root).querySelector('iframe'),
             that = this;
-        this._setHeight(el);
-        var interv = window.setInterval(function() {
-            that._setHeight(el);
-        }, 500);
-        window.setTimeout(function() {
-            window.clearInterval(interv);
-        }, 4000);
+        el.addEventListener('load', function() {
+            that._setHeight();
+        });
+        this._watch(el);
       },
 
-      _setHeight: function(element) {
+      _setHeight: function(el) {
+        var element = Polymer.dom(this.root).querySelector('iframe');
+        element.style.height = 0;
         element.style.height = (element.contentWindow.document.body) ? element.contentWindow.document.body.scrollHeight + 'px' : 0;
+      },
+
+      _watch: function(element) {
+        var that = this;
+        var interv = window.setInterval(function() {
+            var h = (element.contentWindow.document.body) ? element.contentWindow.document.body.scrollHeight : 0;
+            if(that._height != h) {
+                that._height = h;
+                that._setHeight();
+            }
+        }, 50);
       }
 
     });
