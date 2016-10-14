@@ -43,10 +43,12 @@ Auto resizing iframe component
         window.clearInterval(this.interv);
       },
 
-      _setHeight: function(el) {
+      _setHeight: function() {
         var element = Polymer.dom(this.root).querySelector('iframe');
+        var scrollPosition = element.scrollTop;
         element.style.height = 0;
-        element.style.height = (element.contentWindow.document.body) ? element.contentWindow.document.body.scrollHeight + 'px' : 0;
+        element.style.height = (element.contentWindow && element.contentWindow.document.body) ? element.contentWindow.document.body.scrollHeight + 'px' : 0;
+        element.scrollTop = scrollPosition;
       },
 
       _watch: function(element) {
